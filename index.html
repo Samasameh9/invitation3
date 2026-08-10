@@ -213,7 +213,7 @@
         </div>
 
         <!-- countdown -->
-        <div
+       <div
           class="mt-5 py-2 flex flex-col items-center justify-center w-[90%] mx-auto rounded-2xl text-[#a69277] font-bold bg-[#F5E7D8]"
         >
           <h2
@@ -246,8 +246,11 @@
               <p>Seconds</p>
             </div>
           </div>
+          <div id="wedding-message" class="text-2xl hidden">
+            Today is our wedding day
+            <i class="fa-regular fa-heart text-[#a69277]"></i>
+          </div>
         </div>
-
         <!-- color palette -->
         <div
           class="flex flex-col mt-5 justify-center items-center text-[#a69277] font-bold"
@@ -276,7 +279,7 @@
           </div>
         </div>
         <!-- contact -->
-        <form>
+        <form id="messageForm">
           <div
             class="mt-5 flex flex-col items-center justify-center w-[90%] mx-auto rounded-2xl text-[#a69277] font-bold bg-[#F5E7D8]"
           >
@@ -289,20 +292,34 @@
               class="flex flex-col gap-5 py-3 w-full justify-center items-center"
             >
               <input
+                id="userName"
                 type="text"
                 placeholder="Your name"
                 class="border-2 border-[#a69277] w-1/2 rounded-2xl px-5 py-2 text-2xl"
+                autocomplete="off"
               />
+              <p class="text-xl hidden" id="nameError">
+                please write your name before send
+              </p>
               <textarea
+                id="userMessage"
                 placeholder="Your message"
                 class="border-2 border-[#a69277] w-1/2 rounded-2xl py-2 px-5 text-2xl"
               ></textarea>
+              <p class="text-xl hidden" id="messageError">
+                please write your message before send
+              </p>
               <button
                 type="submit"
                 class="border-2 cursor-pointer text-2xl shadow-2xl p-3 rounded-2xl"
               >
                 send
               </button>
+              <p id="success" class="hidden text-xl">
+                Message send successfully, thank you
+                <i class="fa-regular fa-heart text-[#a69277]"></i>
+              </p>
+              <p id="filed" class="text-xl hidden">filed try again</p>
             </div>
           </div>
         </form>

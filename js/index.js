@@ -51,25 +51,32 @@ mapButton.addEventListener("click", () => {
     "https://www.google.com/maps?cid=16842636529515791998&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAMYASAF&hl=en&gl=EG&source=embed",
   );
 });
-const targetDate = new Date(2026, 9, 16, 19, 0, 0).getTime();
-
+const targetDate = new Date(2026, 9, 16, 18, 0, 0).getTime();
 
 function updateCountdown() {
   const now = new Date().getTime();
   const distance = targetDate - now;
 
   if (distance <= 0) {
+    daysEl.textContent = "00";
+    hoursEl.textContent = "00";
+    minutesEl.textContent = "00";
+    secondsEl.textContent = "00";
+
+    document.getElementById("wedding-message").classList.remove("hidden");
+
     clearInterval(interval);
-    document.getElementById("countdown").innerHTML =
-      `<div class="flex justify-center items-center gap-1"><h2>Today is our wedding day  <i class="fa-regular fa-heart text-[#a69277]"></i></h2></div>`;
     return;
   }
 
   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+
   const hours = Math.floor(
     (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
   );
+
   const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
   const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
   daysEl.textContent = String(days).padStart(2, "0");
@@ -77,6 +84,7 @@ function updateCountdown() {
   minutesEl.textContent = String(minutes).padStart(2, "0");
   secondsEl.textContent = String(seconds).padStart(2, "0");
 }
+
 updateCountdown();
 const interval = setInterval(updateCountdown, 1000);
 
@@ -132,3 +140,60 @@ openMessage.addEventListener("click",()=>{
 
   
 })
+//send message
+
+const form = document.getElementById("messageForm");
+
+form.addEventListener("submit", sendMessage);
+
+async function sendMessage(e) {
+  e.preventDefault();
+  const userName = document.getElementById("userName").value.trim();
+  const userMessage = document.getElementById("userMessage").value.trim();
+  const nameError = document.getElementById("nameError");
+  const messageError = document.getElementById("messageError");
+  let valid = true;
+  if (userName === "") {
+    nameError.classList.remove("hidden");
+    valid = false;
+  } else {
+    nameError.classList.add("hidden");
+  }
+  if (userMessage === "") {
+    messageError.classList.remove("hidden");
+    valid = false;
+  } else {
+    messageError.classList.add("hidden");
+  }
+  if (!valid) {
+    return;
+  }
+  console.log({ userName, userMessage });
+
+  try {
+    const result = await fetch("https://weeding-invitattion.vercel.app/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: userName,
+        message: userMessage,
+      }),
+    });
+
+    const data = await result.json();
+    console.log("Response:", data);
+
+    if (!result.ok) {
+      throw new Error(data.message || "Failed to send message");
+    }
+
+    console.log("Success:", data);
+    form.reset();
+    document.getElementById("success").classList.remove("hidden");
+  } catch (error) {
+    console.error("Error:", error);
+    document.getElementById("filed").classList.remove("hidden");
+  }
+}
