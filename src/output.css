@@ -337,6 +337,9 @@
   .h-180 {
     height: calc(var(--spacing) * 180);
   }
+  .h-\[45px\] {
+    height: 45px;
+  }
   .h-\[50px\] {
     height: 50px;
   }
@@ -357,6 +360,9 @@
   }
   .w-1\/2 {
     width: calc(1 / 2 * 100%);
+  }
+  .w-\[45px\] {
+    width: 45px;
   }
   .w-\[50px\] {
     width: 50px;
@@ -423,6 +429,9 @@
   }
   .gap-1 {
     gap: var(--spacing);
+  }
+  .gap-2 {
+    gap: calc(var(--spacing) * 2);
   }
   .gap-5 {
     gap: calc(var(--spacing) * 5);
